@@ -6,28 +6,18 @@ class Enemy:
         self.hp = hp
         self.dmg = dmg
 
-class Player:
-    def __init__(self, name, hp, item):
-        self.name = name
-        self.hp = hp 
-        self.item = item #changes depending on what type of weapon they have if they don't have one it's 3 dmg (barehanded)
-
-    def get_name(self):
-        return self.name
-    
-    def get_hp(self):
-        return self.hp
-    
-    def get_item_name(self):
-        return self.item.get_name()
-    
-    def get_item_hp(self):
-        return self.item.get_hp()
-    
-    def get_item_dmg(self):
-        return self.item.get_dmg()
-    
-
+        def get_name(self):
+            return self.name
+        
+        def get_hp(self):
+            return self.hp
+        
+        def get_dmg(self):
+            return self.dmg
+        
+        def set_hp(self, dmg):
+            newHP = self.hp - dmg
+            self.hp = newHP
 
 class Weapon:
     def __init__(self, name, hp, dmg):
@@ -42,15 +32,54 @@ class Weapon:
         return self.hp
 
     def set_hp(self, dmg):
-        return self.hp - dmg
+        newHP = self.hp - dmg
+        self.hp = newHP
     
     def get_dmg(self):
         return self.dmg
+
+class Player:
+    def __init__(self, name, hp, item):
+        self.name = name
+        self.hp = hp 
+        self.item = item #changes depending on what type of weapon they have if they don't have one it's 3 dmg (barehanded)
+
+    def get_name(self):
+        return self.name
+    
+    def get_hp(self):
+        return self.hp
+    
+    def set_hp(self, dmg):
+        newHP = self.hp - dmg
+        self.hp = newHP
+
+    def set_item(self, item):
+        self.item = item
+    
+    def get_item_name(self):
+        return self.item.get_name()
+    
+    def get_item_hp(self):
+        return self.item.get_hp()
+    
+    def set_item_hp(self, dmg):
+        self.item.set_hp(dmg)
+    
+    def get_item_dmg(self):
+        return self.item.get_dmg()
 
 class Room:
     def __init__(self, name, enemies):
         self.name = name
         self.enemies = enemies
+
+    def get_enemies(self):
+        return self.enemies
+    
+    def set_enemies(self, newList):
+        for e in newList:
+            self.enemies.append(e)
 
 # goal: survive and make a bouquet of flowers from the fields you go through
 
@@ -63,27 +92,33 @@ class Room:
     # bug spray, dmg: 10
     # ladybugs, dmg: 4
 
-ladybug = Weapon("Ladybug", 8, 4)
-flySwatter = Weapon("Fly Swatter", 12, 6)
-weedWhacker = Weapon("Weed Whacker", 16, 8)
-bugSpray = Weapon("Bug Spray", 20, 10)
+def generateWeapons():
+    ladybug = Weapon("Ladybug", 8, 4)
+    flySwatter = Weapon("Fly Swatter", 12, 6)
+    weedWhacker = Weapon("Weed Whacker", 16, 8)
+    bugSpray = Weapon("Bug Spray", 20, 10)
 
-weaponCache = []
-weaponCache.append(ladybug)
-weaponCache.append(flySwatter)
-weaponCache.append(weedWhacker)
-weaponCache.append(bugSpray)
+    weaponCache = [ladybug, flySwatter, weedWhacker, bugSpray]
+    item = random.choice(weaponCache)
+    
+    return item
 
 print("\nWelcome to the Flower Fields!")
 name = input("Please enter your name: ")
 
-item = random.choice(weaponCache)
-
-player = Player(name, 20, item)
+player = Player(name, 20, generateWeapons())
 
 print("\nHello " + player.name + "!\nYou have an HP of " + str(player.hp) + " and your starting weapon is " + player.get_item_name() + "." )
 print("Weapon stats of " + player.get_item_name() + ": ")
 print("HP: " + str(player.get_item_hp()) + "    Damage: " + str(player.get_item_dmg()))
+
+# testing new item pick up
+# player.set_item_hp(2)
+# print(player.get_item_hp())
+
+# item = generateWeapons()
+# player.set_item(item)
+# print(player.get_item_hp())
 
 # 6 rooms generated: lavender field, marigold field, sunflower field, rose field, dahlia field, daisies field
     # each room have 4 entities
@@ -107,4 +142,8 @@ print("HP: " + str(player.get_item_hp()) + "    Damage: " + str(player.get_item_
         # Mouse Spider, hp and dmg: d12
         # Garden Snail, hp and dmg: d8
         # Earworm, hp and dmg: d10
+def generateEnemies():
+    
+    # generate enemies then make copies of them for the rooms
+
 # clearing out a room gives a flower of from that field to the player
