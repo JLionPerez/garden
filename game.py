@@ -86,8 +86,10 @@ class Room:
     def get_enemies(self):
         return self.enemies
     
-    def get_enemy_name(self, i):
-        return self.enemies[i].get_name()
+    def isRoomCleared(self):
+        if not self.enemies:
+            return False
+        return True
 
 def generateWeapons():
     ladybug = Weapon("Ladybug", 8, 4)
@@ -122,23 +124,45 @@ def generateEnemies():
     randomList = [aphid, spiderMite, stinkBug, slug, mouseSpider, gardenSnail, earworm, item]
     random.shuffle(randomList)
 
-    roomList = randomList[:4]
+    enemies = randomList[:4]
 
-    return roomList
+    return enemies
 
 def generateRooms():
-    pass
+    lavenderFields = Room("Lavender Fields", generateEnemies())
+    marigoldFields = Room("Marigold Fields", generateEnemies())
+    sunflowerFields = Room("Sunflower Fields", generateEnemies())
+    roseFields = Room("Rose Fields", generateEnemies())
+    dahliaFields = Room("Dahlia Fields", generateEnemies())
+    poppyFields = Room("Poppy Fields", generateEnemies())
 
-# goal: survive and make a bouquet of flowers from the fields you go through
-# asks for player's name will be referred to that name in the game
+    rooms = [lavenderFields, marigoldFields, sunflowerFields, roseFields, dahliaFields, poppyFields]
+    random.shuffle(rooms)
+
+    return rooms
+
 print("\nWelcome to the Flower Fields!")
-name = input("Please enter your name: ")
+name = input("What's your name? ")
 
 player = Player(name, 20, generateWeapons())
 
-print("\nHello " + player.name + "!\nYou have an HP of " + str(player.hp) + " and your starting weapon is " + player.get_item_name() + "." )
-print("Weapon stats of " + player.get_item_name() + ": ")
-print("HP: " + str(player.get_item_hp()) + "    Damage: " + str(player.get_item_atk()))
+print("\nHiya " + player.name + ", I need your help!")
+print("\nThere's an infestation plaguing my fields and I need you to get to rid of them.\nThere are 6 fields in total. Clearing each field will give you a flower from that field.\nAfter clearing all 6 fields you get to go home with a bouquet of flowers.")
+
+print("\nI've readied your equipment so you should be good to go!")
+print("\nYou have an HP of " + str(player.hp) + " and your starting weapon is " + player.get_item_name() + "." )
+print("Your weapon's HP is " + str(player.get_item_hp()) + " and AP is " + str(player.get_item_atk()) + ".")
+# print("HP: " + str(player.get_item_hp()) + "    Attack Points: " + str(player.get_item_atk()))
+
+# player chooses what field to start with
+# clearing out a room gives a flower of from that field to the player
+# rooms = generateRooms()
+# for room in rooms:
+#     print()
+
+
+
+
 
 # testing new item pick up
 # player.set_item_hp(2)
@@ -155,18 +179,3 @@ print("HP: " + str(player.get_item_hp()) + "    Damage: " + str(player.get_item_
 # for e in firstRoom.enemies:
 #     print( e.get_class_name() + ": " + e.get_name() + "    HP: " + str(e.get_hp()))
     # print("HP: " + str(e.get_hp()))
-
-# 6 rooms generated: lavender field, marigold field, sunflower field, rose field, dahlia field, daisies field
-    # each room have 4 entities
-        # 4 enemies OR 3 enemies and 1 item
-        # to do this we have a list say 5
-        # 4 enemies and 1 weapon 
-        # randomly select a weapon add that to the list of 5
-        # randomly select enemies and add that to the list of 5 too
-        # they will be added into the list randomly so use random.shuffle()
-        # first 4 from the list will be the entities in the room, thats how we do the may or may not have weapon in room part
-
-
-# player chooses what field to start with
-
-# clearing out a room gives a flower of from that field to the player
