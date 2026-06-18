@@ -149,18 +149,20 @@ player = Player(name, 20, generateWeapons())
 print("\nHiya " + player.name + ", I need your help!")
 print("\nThere's an infestation plaguing my fields and I need you to get to rid of them.\nThere are 6 fields in total. Clearing each field will give you a flower from that field.\nAfter clearing all 6 fields you get to go home with a bouquet of flowers.")
 
-print("\nI've readied your equipment so you should be good to go!")
+print("\nI already prepared your equipment so you should be good to go!")
 print("\nYou have an HP of " + str(player.hp) + " and your starting weapon is " + player.get_item_name() + "." )
 print("Your weapon's HP is " + str(player.get_item_hp()) + " and AP is " + str(player.get_item_atk()) + ".")
-# print("HP: " + str(player.get_item_hp()) + "    Attack Points: " + str(player.get_item_atk()))
 
-# player chooses what field to start with
-# clearing out a room gives a flower of from that field to the player
-# rooms = generateRooms()
-# for room in rooms:
-#     print()
-
-
+rooms = generateRooms()
+print("\nYou look out to the flower fields and you see the ", end="")
+for i, room in enumerate(rooms):
+    if i == 5:
+        print("and " + room.get_name() + ".", end="")
+    else:
+        print(room.get_name() + ", ", end="")
+room = input("What field do you want to go into? ")
+# if room in rooms:
+#     print("You head into " + rooms[room].get_name())
 
 
 
