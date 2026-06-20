@@ -22,7 +22,16 @@ for i, room in enumerate(rooms):
         print(room.get_name() + ", ", end="")
 room = input("\nWhat field do you want to go into? ")
 
-currentRoom = next((curRoom for curRoom in rooms if curRoom.name == room))
-indexCurRoom = rooms.index(currentRoom)
-rooms.pop(indexCurRoom)
+currentRoom = next((curRoom for curRoom in rooms if curRoom.get_name() == room))
+rooms.pop(rooms.index(currentRoom))
 
+print("\nYou enter the " + currentRoom.get_name() + ".")
+print("Suddenly you encounter ", end="")
+currentEnemies = currentRoom.get_enemies()
+for i, enemy in enumerate(currentEnemies):
+    if i == len(currentEnemies)-1:
+        print("and " + enemy.get_name() + ".", end="")
+    else:
+        print(enemy.get_name() + ", ", end="")
+
+playerChoice = input("\nWhat will you do? ")
